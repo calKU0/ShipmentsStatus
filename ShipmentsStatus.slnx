@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ShipmentsStatus.Contracts/ShipmentsStatus.Contracts.csproj" />
+  <Project Path="ShipmentsStatus.Infrastructure/ShipmentsStatus.Infrastructure.csproj" />
+  <Project Path="ShipmentsStatus.Service/ShipmentsStatus.Service.csproj" />
+</Solution>
