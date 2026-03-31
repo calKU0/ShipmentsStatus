@@ -6,9 +6,8 @@
     }
     public class GlsParcel
     {
-        public string Requested { get; set; }
-        public string Unitno { get; set; }
+        public DateTime Timestamp { get; set; }
+        public string Trackid { get; set; }
         public string Status { get; set; }
-        public string StatusDateTime { get; set; }
     }
 }

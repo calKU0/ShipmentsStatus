@@ -12,6 +12,7 @@ using ShipmentsStatus.Service;
 using ShipmentsStatus.Service.Constants;
 using ShipmentsStatus.Service.Services;
 using System.Net.Http.Headers;
+using System.Text;
 
 var host = Host.CreateDefaultBuilder(args)
     .UseWindowsService(options =>
@@ -62,6 +63,12 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddHttpClient<GlsService>((sp, client) =>
         {
             var settings = sp.GetRequiredService<IOptions<CourierSettings>>().Value.GLS;
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue(
+                    "Basic",
+                    Convert.ToBase64String(
+                        Encoding.UTF8.GetBytes($"{settings.Username}:{settings.Password}")
+                    ));
             client.BaseAddress = new Uri(settings.BaseUrl);
         });
 

@@ -69,7 +69,7 @@ namespace ShipmentsStatus.Service.Services
                 if (shipment.Status != ShipmentStatus.NotFound)
                 {
                     await UpdateShipmentStatusWithThrottleAsync(shipment, cancellationToken);
-                    _logger.LogInformation("Updated shipment {ShipmentId} for courier {Courier} with status {Status}.", shipment.Id, shipment.Courier, shipment.Status);
+                    _logger.LogInformation("Updated shipment {TrackingNumber} for courier {Courier} with status {Status}.", shipment.TrackingNumber, shipment.Courier, shipment.Status);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace ShipmentsStatus.Service.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to update shipment {ShipmentId} for courier {Courier}.", shipment.Id, shipment.Courier);
+                _logger.LogError(ex, "Failed to update shipment {TrackingNumber} for courier {Courier}.", shipment.TrackingNumber, shipment.Courier);
             }
         }
 
@@ -101,8 +101,8 @@ namespace ShipmentsStatus.Service.Services
                     var delay = TimeSpan.FromSeconds(_retryBaseDelaySeconds * attempt);
                     _logger.LogWarning(
                         ex,
-                        "429 received for shipment {ShipmentId}. Retry {Attempt}/{RetryCount} after {DelaySeconds}s.",
-                        shipment.Id,
+                        "429 received for shipment {TrackingNumber}. Retry {Attempt}/{RetryCount} after {DelaySeconds}s.",
+                        shipment.TrackingNumber,
                         attempt,
                         _retryCount,
                         delay.TotalSeconds);
