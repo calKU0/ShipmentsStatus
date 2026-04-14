@@ -2,6 +2,6 @@
 {
     internal class ServiceConstants
     {
-        internal const string ServiceName = "GaskaShipmentsStatusService";
+        internal const string ServiceName = "OstatniStatusWysylki";
     }
 }
