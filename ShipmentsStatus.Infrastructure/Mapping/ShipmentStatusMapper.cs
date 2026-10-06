@@ -11,6 +11,56 @@ namespace ShipmentsStatus.Infrastructure.Mapping
             var s = status.Trim().ToUpper();
 
             // =========================
+            // FEDEX REST (derivedCode / code)
+            // =========================
+            switch (s)
+            {
+                case "OC": // Label created
+                case "IN": // Initiated
+                case "EP": // Enroute to pickup
+                case "AP": // At pickup
+                case "PD": // Pickup delay
+                    return ShipmentStatus.WaitsForCourier;
+                case "PU": // Picked up
+                case "PX": // Picked up (see details)
+                    return ShipmentStatus.Shipped;
+                case "IT": // In transit
+                case "IX": // In transit (see details)
+                case "AR": // Arrived at FedEx location
+                case "DP": // Departed FedEx location
+                case "AF": // At FedEx facility
+                case "OF": // At FedEx origin facility
+                case "FD": // At FedEx destination facility
+                case "SF": // At sort facility
+                case "LO": // Left origin
+                case "PF": // Plane in flight
+                case "PL": // Plane landed
+                case "AA": // At airport
+                case "EO": // Enroute to origin airport
+                case "ED": // Enroute to delivery
+                case "AD": // At delivery
+                case "OD": // On FedEx vehicle for delivery
+                case "CC": // Cleared customs
+                case "CP": // Clearance in progress
+                case "CD": // Clearance delay
+                case "DY": // Delay
+                case "DD": // Delivery delay
+                case "HL": // Hold at location
+                case "TR": // Transfer
+                case "CH": // Location changed
+                case "SP": // Split status
+                case "PM": // In progress
+                    return ShipmentStatus.InTransit;
+                case "DL": // Delivered
+                    return ShipmentStatus.Delivered;
+                case "DE": // Delivery exception
+                case "SE": // Shipment exception
+                case "RS": // Return to shipper
+                case "CA": // Shipment cancelled
+                    return ShipmentStatus.Call;
+            }
+
+            // =========================
             // WAITS FOR COURIER
             // =========================
             if (s.Contains("REGISTERED PARCEL DATA") ||
@@ -56,7 +106,9 @@ namespace ShipmentsStatus.Infrastructure.Mapping
                 s.Contains("EXPORT / IMPORT CLEARED") ||
                 s.Contains("ABROAD DELIVERY DEPOT") ||
                 s == "WE" ||
-                s == "WK")
+                s == "WK" ||
+                s == "OW" ||   // On the way
+                s == "SR.P")   // Przesyłka w oddziale FedEx
                 return ShipmentStatus.InTransit;
 
             // =========================

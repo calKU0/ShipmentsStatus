@@ -17,8 +17,12 @@ namespace ShipmentsStatus.Infrastructure.Services
         public async Task<ShipmentStatusResponse> GetShipmentStatus(ShipmentStatusRequest request)
         {
             var response = await _infoServices.getEventsForWaybillV1Async(request.TrackingNumber, eventsSelectTypeEnum.ALL, "EN", GetAuthData());
-
-            customerEventV3? parcel = response.@return.eventsList.Where(e => e.description != "Mail notification").OrderByDescending(e => e.eventTime).FirstOrDefault();
+            var events = response.@return.eventsList;
+            customerEventV3? parcel = null;
+            if (events != null)
+            {
+                parcel = events.Where(e => e.description != "Mail notification").OrderByDescending(e => e.eventTime).FirstOrDefault();
+            }
 
             return new ShipmentStatusResponse
             {

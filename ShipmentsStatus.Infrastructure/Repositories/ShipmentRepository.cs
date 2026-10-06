@@ -29,6 +29,7 @@ namespace ShipmentsStatus.Infrastructure.Repositories
                 TrackingNumber = x.TrackingNumber,
                 Type = x.Type,
                 Courier = MapCourier(x.Courier),
+                IsDropshipping = x.IsDropshipping,
                 Status = x.Status,
                 Country = x.Country,
                 StatusDate = x.StatusDate,
@@ -78,6 +79,7 @@ namespace ShipmentsStatus.Infrastructure.Repositories
             public int Type { get; set; }
             public string Courier { get; set; } = string.Empty;
             public ShipmentStatus Status { get; set; }
+            public bool IsDropshipping { get; set; }
             public string Country { get; set; } = string.Empty;
             public DateTime StatusDate { get; set; }
             public DateTime CreatedAt { get; set; }

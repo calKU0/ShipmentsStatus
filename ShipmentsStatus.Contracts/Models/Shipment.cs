@@ -6,6 +6,7 @@ namespace ShipmentsStatus.Contracts.Models
     {
         public int Id { get; set; }
         public string TrackingNumber { get; set; } = string.Empty;
+        public bool IsDropshipping { get; set; }
         public int Type { get; set; }
         public Courier Courier { get; set; }
         public ShipmentStatus Status { get; set; }

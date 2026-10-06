@@ -67,7 +67,7 @@ var host = Host.CreateDefaultBuilder(args)
             client.BaseAddress = new Uri(settings.BaseUrl);
         });
 
-        // FedEx REST client
+        // FedEx REST client (OAuth token handled in FedexRestStrategy)
         services.AddHttpClient<FedexRestStrategy>((sp, client) =>
         {
             var settings = sp.GetRequiredService<IOptions<CourierSettings>>().Value.Fedex.Rest;

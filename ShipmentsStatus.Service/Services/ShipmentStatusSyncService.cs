@@ -69,16 +69,16 @@ namespace ShipmentsStatus.Service.Services
                 if (shipment.Status != ShipmentStatus.NotFound)
                 {
                     await UpdateShipmentStatusWithThrottleAsync(shipment, cancellationToken);
-                    _logger.LogInformation("Updated shipment {TrackingNumber} for courier {Courier} with status {Status}.", shipment.TrackingNumber, shipment.Courier, shipment.Status);
+                    _logger.LogInformation("Updated shipment {TrackingNumber} for courier {Courier} with status {Status}. Status from API: {ResponseStatus} ({ResponseDescription})", shipment.TrackingNumber, shipment.Courier, shipment.Status, response.Status, response.Description);
                 }
                 else
                 {
-                    _logger.LogWarning("Shipment status {TrackingNumber} not found in Courier {Courier}", shipment.TrackingNumber, shipment.Courier);
+                    _logger.LogWarning("Shipment status {TrackingNumber} not found for Courier {Courier}", shipment.TrackingNumber, shipment.Courier);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to update shipment {TrackingNumber} for courier {Courier}.", shipment.TrackingNumber, shipment.Courier);
+                _logger.LogError(ex, "Failed to update shipment {TrackingNumber} for courier {Courier}", shipment.TrackingNumber, shipment.Courier);
             }
         }
 
@@ -93,6 +93,7 @@ namespace ShipmentsStatus.Service.Services
                     return await courierService.GetShipmentStatus(new ShipmentStatusRequest
                     {
                         TrackingNumber = shipment.TrackingNumber,
+                        IsDropshipping = shipment.IsDropshipping,
                         Country = shipment.Country
                     });
                 }

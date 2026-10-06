@@ -22,7 +22,7 @@ namespace ShipmentsStatus.Infrastructure.Services
 
         public Task<ShipmentStatusResponse> GetShipmentStatus(ShipmentStatusRequest request)
         {
-            return GetStrategy(request.Country).GetShipmentStatus(request.TrackingNumber);
+            return GetStrategy(request.Country).GetShipmentStatus(request.TrackingNumber, request.IsDropshipping);
         }
     }
 }

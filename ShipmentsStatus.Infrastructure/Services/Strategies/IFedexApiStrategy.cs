@@ -4,6 +4,6 @@ namespace ShipmentsStatus.Infrastructure.Services.Strategies
 {
     public interface IFedexApiStrategy
     {
-        Task<ShipmentStatusResponse> GetShipmentStatus(string trackingNumber);
+        Task<ShipmentStatusResponse> GetShipmentStatus(string trackingNumber, bool isDropshipping);
     }
 }

@@ -15,15 +15,17 @@ namespace ShipmentsStatus.Infrastructure.Services.Strategies
             _client = new IklServiceClient(IklServiceClient.EndpointConfiguration.IklServicePort);
         }
 
-        public async Task<ShipmentStatusResponse> GetShipmentStatus(string trackingNumber)
+        public async Task<ShipmentStatusResponse> GetShipmentStatus(string trackingNumber, bool isDropshipping)
         {
-            var result = await _client.pobierzStatusyPrzesylkiAsync(_settings.AccessCode, trackingNumber, 1);
+            var result = await _client.pobierzStatusyPrzesylkiAsync(isDropshipping ? _settings.DropshippingAccessCode : _settings.AccessCode, trackingNumber, 1);
+            var status = result.statusyPrzesylki?.FirstOrDefault();
 
             return new ShipmentStatusResponse
             {
                 TrackingNumber = trackingNumber,
-                Date = Convert.ToDateTime(result.statusyPrzesylki?.FirstOrDefault()?.dataS ?? DateTime.Now.ToString()),
-                Status = result.statusyPrzesylki?.FirstOrDefault()?.skrot ?? "Not found"
+                Date = Convert.ToDateTime(status?.dataS ?? DateTime.Now.ToString()),
+                Status = status?.skrot ?? "Not found",
+                Description = status?.opis
             };
         }
     }
